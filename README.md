@@ -4,6 +4,10 @@ A postgres database app modeling customer data with an alerting feature for an o
 
 ## How to use:
 
+### Requirements
+- Docker or Python > DBT
+- Accompanying CSV datasets
+
 ### Initialization
 - Edit the compose file line containing '/home/niccolo/projects/' with the correct absolute path snippet depending on where you save this repository.
 - In the project directory and with Docker installed, run the command "docker compose up".
@@ -13,7 +17,7 @@ A postgres database app modeling customer data with an alerting feature for an o
 
 ### Troubleshooting
 For initialization issues, try:
-- Installing DBT, navigating to the dbt/data_platform directory, and running the commands:
+- Installing DBT and Postgres, navigating to the dbt/data_platform directory, and running the commands:
   - dbt seed
   - dbt run
   - dbt test
