@@ -25,6 +25,29 @@ For initialization issues, try:
   - dbt docs serve
 - Open http://localhost:8080/#!/overview to see the DBT project documentation.
 
+## Project 
+
+### Prompt
+
+Given a dataset of unique invoices (without a date field) and a dataset of unique organizations, prepare a function that sends alerts when customer balances change by 50% or more. Follow DBT best practices while doing so.
+
+### Interesting Choices
+
+**Seed instead of case when for invoice enrichment**
+I like this option because I had to make assumptions on how to treat each field in computing for balance and other fields. This format makes it easy to make adjustments and a arguably easier than looking at conditional logic in SQL to understand what's going on. Some other thoughts:
+- It would be a good idea to compare this strategy to using case whens in terms of computational cost.
+- Downstream incrementals may have to be fully refreshed after changes to this seed.
+
+**Postgres as the DB**
+I wanted to learn how to utilize a free containerized database while doing this project. There are a few things I miss while on Postgres that I would've utilized if on Snowflake:
+- UDTFs in a variety of languages.
+- Snowpark for Slack Alerts.
+- Useful statements and functions like qualify and median.
+
+**More thoughts on Alerts**
+- There's some extra setup required to get this working on Slack. But the localized blueprint of connecting to a database is there. Printing to a console is considerably simpler than connecting to Slack.
+- It would be less spammy to send a full list in the Alert rather than a single item at a time. But perhaps the operations team likes to have a dedicated thread per customer issue.
+
 ## Reference Materials
 ### Lineage graph
 
@@ -75,3 +98,7 @@ For initialization issues, try:
 ├── init.sh
 └── init.sql
 ```
+### Task Management
+
+<img width="384" alt="image" src="https://github.com/niccoloalexander/data_platform/assets/44615193/9b5a6b9e-7d4e-48a5-b10e-c99036b6e38f">
+
