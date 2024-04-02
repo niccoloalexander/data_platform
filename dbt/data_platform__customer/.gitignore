@@ -1,0 +1,7 @@
+target/
+logs/
+dbt_packages/
+csv_data/invoices.csv 
+csv_data/organizations.csv
+.vscode/
+package-lock.yml

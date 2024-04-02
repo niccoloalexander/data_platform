@@ -1,0 +1,46 @@
+version: '3.10.7'
+
+services:
+
+  dbt:
+    container_name: data-platform-dbt-postgres
+    image: ghcr.io/dbt-labs/dbt-postgres:1.7.6
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    # for interactive shell
+    stdin_open: true
+    tty: true
+    environment:
+      DBT_PROFILES_DIR: /usr/.dbt/
+      DBT_PROJECT_DIR: /usr/app/dbt/data_platform__customer
+      FACT_TABLE_FOR_ALERTS: customer.analytics.fact_organization_daily_metrics
+    volumes: # absolute/path/to/home/project:path/to/container/project
+      - /home/niccolo/projects/data/.dbt/:/usr/.dbt/
+      - /home/niccolo/projects/data/dbt/:/usr/app/dbt/
+      - ./alert_script.py:/usr/app/alert_script.py  
+      - ./init.sh:/usr/app/init.sh  # Mount the custom script
+    entrypoint: /usr/app/init.sh
+      
+  db:
+    container_name: data-platform-postgres
+    image: postgres:16.2
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres 
+      POSTGRES_DB: customer
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h db -q -d customer"]
+      interval: 5s
+      retries: 15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./csv_data:/csv_data  # Mount CSV data directory
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount SQL script
+
+volumes:
+  postgres_data:

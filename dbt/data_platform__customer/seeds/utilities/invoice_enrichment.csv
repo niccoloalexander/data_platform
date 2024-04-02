@@ -1,0 +1,10 @@
+in_status_type,out_status_definition,out_amount_coefficient,out_payment_amount_coefficient,out_is_final
+paid,The invoice was successfully paid to us.,1,1,true
+open,The invoices is open and awaiting payment to us.,1,1,false
+skipped,The invoice was skipped for rescheduling of payment to us.,1,1,false
+cancelled,The invoice was cancelled.,0,0,true
+pending,The invoice is pending before payment to us.,1,1,false
+credited,The invoice has been credited to the customer.,-1,-1,true
+processing,The invoice is undergoing payment processing to us.,1,1,false
+failed,The invoice was unsuccessfully paid to us.,1,0,true
+refunded,The invoice payment has been refunded back to the customer.,0,0,true

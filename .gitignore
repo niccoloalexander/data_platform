@@ -1,0 +1,10 @@
+.DS_STORE
+
+.dbt/.user.yml
+
+target/
+dbt_packages/
+logs/
+
+csv_data/invoices.csv 
+csv_data/organizations.csv

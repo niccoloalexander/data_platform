@@ -1,0 +1,34 @@
+version: 1
+
+seeds:
+  - name: invoice_enrichment
+    description: '{{ doc("invoice_enrichment") }}'
+    columns:
+      - name: in_status_type 
+        description: '{{ doc("customer__invoice_status") }}'
+        type: varchar
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: out_status_definition
+        description: '{{ doc("invoice_status_definition") }}'
+        type: varchar
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: out_amount_coefficient
+        description: '{{ doc("amount_coefficient") }}'
+        type: number
+        tests:
+          - not_null
+      - name: out_payment_amount_coefficient
+        description: '{{ doc("payment_amount_coefficient") }}'
+        type: number
+        tests:
+          - not_null
+      - name: out_is_final
+        description: '{{ doc("is_final") }}'
+        type: boolean
+        tests:
+          - not_null

@@ -1,0 +1,18 @@
+version: 1
+
+exposures:
+
+  - name: operations_customer_balance_alert
+    label: 
+    type: analysis
+    maturity: high
+    # url: # Place a Slack channel URL here.
+    description: >
+      {{ doc('fct_organization_daily_financials') }}
+      {{ doc('fct_organization_daily_financials') }}
+    depends_on:
+      - ref('fct_organization_daily_financials')
+
+    owner:
+      name: Callum McData
+      email: arealbig@deel.com

@@ -1,0 +1,21 @@
+data_platform__customer:
+  target: prod
+  outputs:
+    dev:
+      dbname: customer
+      host: db
+      pass: postgres
+      port: 5432
+      schema: dev
+      threads: 4
+      type: postgres
+      user: postgres
+    prod:
+      dbname: customer
+      host: db
+      pass: postgres
+      port: 5432
+      schema: analytics
+      threads: 4
+      type: postgres
+      user: postgres

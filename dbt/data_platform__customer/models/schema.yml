@@ -1,0 +1,298 @@
+version: 1
+
+sources:
+  - name: postgres
+    schema: raw
+    tables:
+      - name: raw_invoices
+        description: '{{ doc("customer__invoices") }}'
+        columns:  
+          - name: invoice_id
+            description: '{{ doc("customer__invoice_id") }}'
+            tests:
+              - unique
+              - not_null
+              - dbt_utils.not_empty_string
+          - name: parent_invoice_id
+            description: '{{ doc("customer__parent_invoice_id") }}'
+            tests:
+              - not_null
+              - dbt_utils.not_empty_string
+          - name: transaction_id
+            description: '{{ doc("customer__transaction_id") }}'
+            tests:
+              - not_null
+              - dbt_utils.not_empty_string
+          - name: organization_id
+            description: '{{ doc("customer__organization_id") }}'
+            tests:
+              - not_null
+              - dbt_utils.not_empty_string
+          - name: type
+            description: '{{ doc("customer__type") }}'
+            tests:
+            - dbt_utils.not_empty_string
+          - name: status
+            description: '{{ doc("customer__invoice_status") }}'
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['paid', 'open', 'skipped', 'cancelled', 'pending', 'credited', 'processing', 'failed', 'refunded']
+          - name: currency
+            description: '{{ doc("customer__currency") }}'
+            test:
+              - not_null
+              - dbt_utils.expression_is_true:
+                expression: "length(currency) = 3"
+          - name: payment_currency
+            description: '{{ doc("customer__payment_currency") }}'
+            test:
+              - not_null
+              - dbt_utils.expression_is_true:
+                expression: "length(currency) = 3"
+          - name: payment_method
+            description: '{{ doc("customer__payment_method") }}'
+            test:
+              - dbt_utils.not_empty_string
+          - name: amount
+            description: '{{ doc("customer__amount") }}'
+          - name: payment_amount
+            description: '{{ doc("customer__payment_amount") }}'
+          - name: fx_rate
+            description: '{{ doc("customer__fx_rate") }}'
+            tests:
+              - not_null
+          - name: fx_rate_payment
+            description: '{{ doc("customer__fx_rate_payment") }}'
+      - name: raw_organizations
+        loaded_at_field: loaded_at
+        description: '{{ doc("customer__organizations") }}'
+        columns:
+          - name: organization_id
+            description: '{{ doc("customer__organization_id") }}'
+            tests:
+              - unique
+              - not_null
+              - dbt_utils.not_empty_string
+          - name: first_payment_date
+            description: '{{ doc("customer__first_payment_date") }}'
+          - name: last_payment_date
+            description: '{{ doc("customer__last_payment_date") }}'
+          - name: legal_entity_country_code
+            description: '{{ doc("customer__legal_entity_country_code") }}'
+            test:
+              - dbt_utils.not_empty_string
+          - name: count_total_contracts_active
+            description: '{{ doc("customer__count_total_contracts_active") }}'
+          - name: created_date
+            description: '{{ doc("customer__created_date") }}'
+            tests:
+              - not_null
+
+models:
+  - name: stg_customer__invoices
+    description: '{{ doc("customer__invoices") }}'
+    columns:  
+      - name: invoice_id
+        description: '{{ doc("customer__invoice_id") }}'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: parent_invoice_id
+        description: '{{ doc("customer__parent_invoice_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: transaction_id
+        description: '{{ doc("customer__transaction_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: organization_id
+        description: '{{ doc("customer__organization_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: type_id
+        description: '{{ doc("customer__type") }}'
+        tests:
+          - dbt_utils.not_empty_string
+      - name: status_type
+        description: '{{ doc("customer__invoice_status") }}'
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['paid', 'open', 'skipped', 'cancelled', 'pending', 'credited', 'processing', 'failed', 'refunded']
+      - name: currency
+        description: '{{ doc("customer__currency") }}'
+        test:
+          - not_null
+          - dbt_utils.expression_is_true:
+            expression: "length(currency) = 3"
+          - dbt_utils.not_empty_string
+      - name: payment_currency
+        description: '{{ doc("customer__payment_currency") }}'
+        test:
+          - not_null
+          - dbt_utils.expression_is_true:
+            expression: "length(currency) = 3"
+          - dbt_utils.not_empty_string
+      - name: payment_method
+        description: '{{ doc("customer__payment_method") }}'
+      - name: amount
+        description: '{{ doc("customer__amount") }}'
+      - name: payment_amount
+        description: '{{ doc("customer__payment_amount") }}'
+      - name: fx_rate
+        description: '{{ doc("customer__fx_rate") }}'
+        tests:
+          - not_null
+      - name: fx_rate_payment
+        description: '{{ doc("customer__fx_rate_payment") }}'
+  - name: stg_customer__organizations
+    description: '{{ doc("customer__organizations") }}'
+    columns:
+      - name: organization_id
+        description: '{{ doc("customer__organization_id") }}'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: first_payment_date
+        description: '{{ doc("customer__first_payment_date") }}'
+      - name: last_payment_date
+        description: '{{ doc("customer__last_payment_date") }}'
+      - name: legal_entity_country_code
+        description: '{{ doc("customer__legal_entity_country_code") }}'
+      - name: count_total_contracts_active
+        description: '{{ doc("customer__count_total_contracts_active") }}'
+      - name: created_date
+        description: '{{ doc("customer__created_date") }}'
+  - name: dim_invoices
+    description: '{{ doc("dim_invoices" )}}'
+    columns:  
+      - name: invoice_id
+        description: '{{ doc("customer__invoice_id") }}'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: parent_invoice_id
+        description: '{{ doc("customer__parent_invoice_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: transaction_id
+        description: '{{ doc("customer__transaction_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: organization_id
+        description: '{{ doc("customer__organization_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: type_id
+        description: '{{ doc("customer__type") }}'
+        tests:
+          - dbt_utils.not_empty_string
+      - name: status_type
+        description: '{{ doc("customer__invoice_status") }}'
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['paid', 'open', 'skipped', 'cancelled', 'pending', 'credited', 'processing', 'failed', 'refunded']
+      - name: currency
+        description: '{{ doc("customer__currency") }}'
+        test:
+          - not_null
+          - dbt_utils.expression_is_true:
+            expression: "len(currency) = 3"
+      - name: payment_currency
+        description: '{{ doc("customer__payment_currency") }}'
+        test:
+          - not_null
+          - dbt_utils.expression_is_true:
+            expression: "len(currency) = 3"
+      - name: payment_method
+        description: '{{ doc("customer__payment_method") }}'
+      - name: amount
+        description: '{{ doc("customer__amount") }}'
+      - name: payment_amount
+        description: '{{ doc("customer__payment_amount") }}'
+      - name: fx_rate
+        description: '{{ doc("customer__fx_rate") }}'
+        tests:
+          - not_null
+      - name: fx_rate_payment
+        description: '{{ doc("customer__fx_rate_payment") }}'
+      - name: accrued_revenue
+        description: '{{ doc("accrued_revenue") }}'
+      - name: realized_revenue
+        description: '{{ doc("realized_revenue") }}'
+      - name: accepted_payment_amount
+        description: '{{ doc("accepted_payment_amount") }}'
+      - name: balance
+        description: '{{ doc("balance") }}'
+        tests:
+          - not_null
+  - name: dim_organizations
+    description: '{{ doc("customer__organizations") }}'
+    columns:
+      - name: organization_id
+        description: '{{ doc("customer__organization_id") }}'
+        tests:
+          - unique
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: first_payment_date
+        description: '{{ doc("customer__first_payment_date") }}'
+      - name: last_payment_date
+        description: '{{ doc("customer__last_payment_date") }}'
+      - name: legal_entity_country_code
+        description: '{{ doc("customer__legal_entity_country_code") }}'
+      - name: count_total_contracts_active
+        description: '{{ doc("customer__count_total_contracts_active") }}'
+      - name: created_date
+        description: '{{ doc("customer__created_date") }}'
+      - name: accrued_revenue
+        description: '{{ doc("accrued_revenue") }}'
+      - name: realized_revenue
+        description: '{{ doc("realized_revenue") }}'
+      - name: accepted_payment_amount
+        description: '{{ doc("accepted_payment_amount") }}'
+      - name: balance
+        description: '{{ doc("balance") }}'
+  - name: fct_organization_daily_financials
+    description: '{{ doc("fct_organization_daily_financials") }}'
+    tests:
+      - dbt_utils.recency:
+          datepart: day
+          field: recorded_date
+          interval: 1
+    columns:
+      - name: record_id
+        description: '{{ doc("record_id") }}'
+        tests:
+          - unique
+          - not_null
+      - name: organization_id
+        description: '{{ doc("customer__organization_id") }}'
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: accrued_revenue
+        description: '{{ doc("accrued_revenue") }}'
+      - name: realized_revenue
+        description: '{{ doc("realized_revenue") }}'
+      - name: balance
+        description: '{{ doc("balance") }}'
+      - name: previous_balance
+        description: '{{ doc("previous_balance") }}'
+      - name: balance_change_rate
+        description: '{{ doc("balance_change_rate") }}'
+      - name: recorded_date
+        description: '{{ doc("previous_balance") }}'
+      - name: recorded_at
+        description: '{{ doc("balance_change_rate") }}'
