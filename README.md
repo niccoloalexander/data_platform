@@ -23,4 +23,5 @@ For initialization issues, try:
 
 ## Materials
 ### Lineage graph
+
 <img width="1219" alt="image" src="https://github.com/niccoloalexander/data_platform/assets/44615193/c8bf4a22-7aae-462e-8126-30481d1dcc76">
