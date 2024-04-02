@@ -6,7 +6,7 @@ A postgres database app modeling customer data with an alerting feature for an o
 
 ### Requirements
 - Docker or Python > DBT
-- Accompanying CSV datasets
+- Accompanying CSV datasets placed in the csv_data directory.
 
 ### Initialization
 - Edit the compose file line containing '/home/niccolo/projects/' with the correct absolute path snippet depending on where you save this repository.
