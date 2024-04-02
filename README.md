@@ -28,6 +28,7 @@ For initialization issues, try:
 
 ### Project tree
 
+```bash
 .
 ├── alert_script.py
 ├── compose.yaml
@@ -631,3 +632,4 @@ For initialization issues, try:
 │       └── dbt.log
 ├── init.sh
 └── init.sql
+```
