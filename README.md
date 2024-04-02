@@ -40,13 +40,14 @@ I like this option because I had to make assumptions on how to treat each field 
 
 **Postgres as the DB**
 I wanted to learn how to utilize a free containerized database while doing this project. There are a few things I miss while on Postgres that I would've utilized if on Snowflake:
-- UDTFs in a variety of languages.
+- UDTFs in a variety of languages. Writing these as macros, using Jinja for database and target schema, and generating them through pre or post-hooks.
 - Snowpark for Slack Alerts.
 - Useful statements and functions like qualify and median.
 
 **More thoughts on Alerts**
 - There's some extra setup required to get this working on Slack. But the localized blueprint of connecting to a database is there. Printing to a console is considerably simpler than connecting to Slack.
 - It would be less spammy to send a full list in the Alert rather than a single item at a time. But perhaps the operations team likes to have a dedicated thread per customer issue.
+- Note: `analyze_customer_balance_change_alert` is an unused artifict.
 
 **Styling**
 I enjoy leading commas because it's easy to query and adjust queries as I go along writing SQL. But it's important to have an agreed-upon styling policy so that a team can work well together. An improvement would've been to run everything through a compiler to strictly follow a styling guide.
