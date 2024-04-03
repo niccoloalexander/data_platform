@@ -34,7 +34,7 @@ Given a dataset of unique invoices (without a date field) and a dataset of uniqu
 ### Interesting Choices
 
 **Seed instead of case when for invoice enrichment**
-I like this option because I had to make assumptions on how to treat each field in computing for balance and other fields. This format makes it easy to make adjustments and a arguably easier than looking at conditional logic in SQL to understand what's going on. Some other thoughts:
+I like this option because I had to make assumptions on how to treat each field in computing for balance and other fields. This format makes it easy to make adjustments and is arguably easier than looking at conditional logic in SQL to understand what's going on. Some other thoughts:
 - It would be a good idea to compare this strategy to using case whens in terms of computational cost.
 - Downstream incrementals may have to be fully refreshed after changes to this seed.
 
