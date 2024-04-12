@@ -80,6 +80,7 @@ with organization_snapshot as (
         , recorded_date 
         , recorded_at 
     from get_previous_balance
+    where recoreded_date = current_date()
 )
 
 select 
