@@ -19,7 +19,7 @@ with organizations as (
 )
 , organizations_joined_aggregate_invoices_to_organizations_grain as (
     select 
-        coalesce(organizations.organization_id, aggregate_invoices_to_organizations_grain.organization_id) as organization_id
+        organizations.organization_id
         , organizations.legal_entity_country_code
         , organizations.count_total_contracts_active
         , aggregate_invoices_to_organizations_grain.accrued_revenue
@@ -29,7 +29,7 @@ with organizations as (
         , organizations.first_payment_date
         , organizations.last_payment_date
     from organizations 
-    full outer join aggregate_invoices_to_organizations_grain 
+    left join aggregate_invoices_to_organizations_grain 
     on organizations.organization_id = aggregate_invoices_to_organizations_grain.organization_id
 )
 

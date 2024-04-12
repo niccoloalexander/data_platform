@@ -92,6 +92,11 @@ sources:
 models:
   - name: stg_customer__invoices
     description: '{{ doc("customer__invoices") }}'
+    tests:
+      - fewer_distinct_values:
+          field_to_test: organization_id
+          reference_model: stg_customer__organizations
+          field_to_compare: organization_id
     columns:  
       - name: invoice_id
         description: '{{ doc("customer__invoice_id") }}'
@@ -171,6 +176,11 @@ models:
         description: '{{ doc("customer__created_date") }}'
   - name: dim_invoices
     description: '{{ doc("dim_invoices" )}}'
+    tests:
+      - fewer_distinct_values:
+          field_to_test: organization_id
+          reference_model: dim_organizations
+          field_to_compare: organization_id
     columns:  
       - name: invoice_id
         description: '{{ doc("customer__invoice_id") }}'
