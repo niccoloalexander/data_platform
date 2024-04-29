@@ -21,7 +21,7 @@ with source_data as (
         , fx_rate_payment::decimal as fx_rate_payment
         , current_date::date as generated_date
         -- , current_time::timestamp as generated_at
-    from {{ source('postgres', 'raw_invoices') }}
+    from {{ source('customer', 'raw_invoices') }}
 )
 
 select *

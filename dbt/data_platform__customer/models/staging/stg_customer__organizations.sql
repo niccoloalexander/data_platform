@@ -12,7 +12,7 @@ with source_data as (
         , first_payment_date::date as first_payment_date 
         , last_payment_date::date as last_payment_date 
         , created_date::date as created_date 
-    from {{ source('postgres', 'raw_organizations') }}
+    from {{ source('customer', 'raw_organizations') }}
 )
 
 select *

@@ -1,7 +1,7 @@
 version: 1
 
 sources:
-  - name: postgres
+  - name: customer
     schema: raw
     tables:
       - name: raw_invoices
