@@ -49,3 +49,9 @@ seeds:
 analyses:
   data_platform__customer:
     +schema: analytics
+
+snapshots:
+  data_platform__customer:
+    enabled: false 
+    +target_schema: snapshots
+    tags: ['snapshot']
