@@ -3,7 +3,9 @@
         alias='fact_organization_daily_metrics'
         , materialization='incremental'
         , unique_key='record_id'
-        , on_schema_change='ignore'
+        , incremental_strategy='append'
+        , on_schema_change='append_new_columns'
+        , full_refresh=false
     ) 
 }}
 
@@ -53,7 +55,7 @@ with organization_snapshot as (
         , recorded_date
         , recorded_at
     from {{ this }}
-    where recorded_date <> current_date()
+    where recorded_date <> current_date
     {% endif %}
 )
 , get_previous_balance as (
@@ -80,7 +82,7 @@ with organization_snapshot as (
         , recorded_date 
         , recorded_at 
     from get_previous_balance
-    where recoreded_date = current_date()
+    where recorded_date = current_date
 )
 
 select 
