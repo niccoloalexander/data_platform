@@ -1,4 +1,4 @@
-{% test fewer_distinct_values(model, field_to_test, reference_model, field_to_compare) %}
+{% test values_present_in_other_model(model, field_to_test, reference_model, field_to_compare) %}
 
 -- Define a CTE to retrieve all distinct values from the field_to_test column in the model being tested
 with test_values as (
@@ -9,7 +9,7 @@ with test_values as (
 -- Define a CTE to retrieve all distinct values from the field_to_compare column in the reference_model
 reference_values as (
     select distinct {{ field_to_compare }}
-    from {{ ref(reference_model) }}
+    from {{ reference_model }}
 )
 
 -- Select values from test_values that are not present in reference_values
