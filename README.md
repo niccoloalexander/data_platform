@@ -116,5 +116,6 @@ I enjoy leading commas because it's easy to query and adjust queries as I go alo
 ```
 ### Task Management
 
+Here is a sample of how I managed tasks while creating this sample project.
 <img width="384" alt="image" src="https://github.com/niccoloalexander/data_platform/assets/44615193/9b5a6b9e-7d4e-48a5-b10e-c99036b6e38f">
 
