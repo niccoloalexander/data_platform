@@ -40,8 +40,10 @@ def main():
     for row in rows:
         organization_id, balance_change_rate, previous_balance, balance = row
 
-        if balance_change_rate is not None and abs(balance_change_rate) >= 0.5:
-            send_alert(organization_id, balance_change_rate, previous_balance, balance)
+        if balance_change_rate is not None:
+            if abs(balance_change_rate) >= 0.5:
+                send_alert(organization_id, balance_change_rate, previous_balance, balance)
+            else: pass
         else:
             pass
         
