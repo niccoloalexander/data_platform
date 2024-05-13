@@ -5,13 +5,12 @@ exposures:
   - name: operations_customer_balance_alert
     label: 
     type: analysis
-    maturity: high
+    maturity: low # Using a console print in place of a formal alert potentially on Slack or other messaging platform.
     # url: # Place a Slack channel URL here.
     description: >
-      Send an alert (only to console in lieu of a Slack workspace) for any organizations with large balance changes from the previous day.
+      {{ doc('fct_organization_daily_financials') }}
     depends_on:
-      - ref('organizations_with_large_balance_changes')
-
+      - ref('fct_organization_daily_financials')
     owner:
       name: Callum McData
       email: arealbig@deel.com
