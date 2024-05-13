@@ -302,10 +302,6 @@ models:
         description: '{{ doc("realized_revenue") }}'
       - name: balance
         description: '{{ doc("balance") }}'
-      - name: previous_balance
-        description: '{{ doc("previous_balance") }}'
-      - name: balance_change_rate
-        description: '{{ doc("balance_change_rate") }}'
       - name: recorded_date
         description: '{{ doc("previous_balance") }}'
       - name: recorded_at

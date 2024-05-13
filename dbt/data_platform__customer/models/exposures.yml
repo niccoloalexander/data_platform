@@ -8,9 +8,9 @@ exposures:
     maturity: high
     # url: # Place a Slack channel URL here.
     description: >
-      {{ doc('fct_organization_daily_financials') }}
+      Send an alert (only to console in lieu of a Slack workspace) for any organizations with large balance changes from the previous day.
     depends_on:
-      - ref('fct_organization_daily_financials')
+      - ref('organizations_with_large_balance_changes')
 
     owner:
       name: Callum McData
