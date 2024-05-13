@@ -34,8 +34,11 @@ For initialization issues, try:
 Given a dataset of unique invoices (without a date field) and a dataset of unique organizations, prepare a function that sends alerts when customer balances change by 50% or more. Follow DBT best practices while doing so.
 
 ### Solution
-
-Organization balances are computed from invoices. Daily balance snapshots are incrementally loaded into a fact table. This table is configured not to full refresh due to a data loss risk given the constraint that only most recent attributes on invoices are available from raw data. An analysis is compiled onto an alert script which send an alert for any organization that has a balance change of more than 50% from the previous day. The script works moving forward from project creation.
+- Organization balances are computed from invoices.
+- Daily balance snapshots are incrementally loaded into a fact table.
+  - This table is configured not to full refresh due to a data loss risk given the constraint that only most recent attributes on invoices are available from raw data.
+- An analysis is compiled onto an alert script which send an alert for any organization that has a balance change of more than 50% from the previous day.
+  - The script works moving forward from project creation.
 
 ### Interesting Choices
 
