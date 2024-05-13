@@ -1,6 +1,8 @@
 # Data Platform
 
-A postgres database app modeling customer data with an alerting feature for an operations team.
+A postgres database app modeling customer data with an alerting feature for an operations team. 
+
+This is a DBT project used to sample Analytics Engineering aptitude. The hypothetical use case is to monitor organization finances and alert on large balance changes. In this proejct, we are onstrained in using raw dim data with updated (lacking historical) attributes only.
 
 ## How to use:
 
@@ -31,6 +33,10 @@ For initialization issues, try:
 
 Given a dataset of unique invoices (without a date field) and a dataset of unique organizations, prepare a function that sends alerts when customer balances change by 50% or more. Follow DBT best practices while doing so.
 
+### Solution
+
+Organization balances are computed from invoices. Daily balance snapshots are incrementally loaded into a fact table. This table is configured not to full refresh due to a data loss risk given the constraint that only most recent attributes on invoices are available from raw data. An analysis is compiled onto an alert script which send an alert for any organization that has a balance change of more than 50% from the previous day. The script works moving forward from project creation.
+
 ### Interesting Choices
 
 **Seed instead of case when for invoice enrichment**
@@ -45,9 +51,7 @@ I wanted to learn how to utilize a free containerized database while doing this 
 - Useful statements and functions like qualify and median.
 
 **More thoughts on Alerts**
-- There's some extra setup required to get this working on Slack. But the localized blueprint of connecting to a database is there. Printing to a console is considerably simpler than connecting to Slack.
 - It would be less spammy to send a full list in the Alert rather than a single item at a time. But perhaps the operations team likes to have a dedicated thread per customer issue.
-- Note: `analyze_customer_balance_change_alert` is an unused artifact.
 
 **Styling**
 I enjoy leading commas because it's easy to query and adjust queries as I go along writing SQL. But it's important to have an agreed-upon styling policy so that a team can work well together. An improvement would've been to run everything through a compiler to strictly follow a styling guide.
@@ -55,50 +59,55 @@ I enjoy leading commas because it's easy to query and adjust queries as I go alo
 ## Reference Materials
 ### Lineage graph
 
-<img width="1219" alt="image" src="https://github.com/niccoloalexander/data_platform/assets/44615193/c8bf4a22-7aae-462e-8126-30481d1dcc76">
+![image](https://github.com/niccoloalexander/data_platform/assets/44615193/cb5bef22-0f99-457a-a0fa-82b76b0e6d7d)
 
 ### Project tree
 
 ```bash
 .
-├── .dbt
-│   └── profiles.yml
-├── .gitignore
 ├── README.md
 ├── alert_script.py
 ├── compose.yaml
+├── csv_data
 ├── dbt
-│   └── data_platform__customer
-│       ├── README.md
-│       ├── analyses
-│       │   ├── analyze_customer_balance_change_alert.sql
-│       │   └── messy_eda.sql
-│       ├── dbt_project.yml
-│       ├── docs
-│       │   └── docs.md
-│       ├── macros
-│       │   ├── filter_new_rows.sql
-│       │   └── get_custom_schema.sql
-│       ├── models
-│       │   ├── exposures.yml
-│       │   ├── intermediate
-│       │   │   ├── int_invoices_enriched.sql
-│       │   │   └── int_organizations_joined_invoices_enriched.sql
-│       │   ├── marts
-│       │   │   ├── dim_invoices.sql
-│       │   │   ├── dim_organizations.sql
-│       │   │   └── fct_organization_daily_financials.sql
-│       │   ├── schema.yml
-│       │   └── staging
-│       │       ├── stg_customer__invoices.sql
-│       │       └── stg_customer__organizations.sql
-│       ├── packages.yml
-│       ├── seeds
-│       │   ├── schema.yml
-│       │   └── utilities
-│       │       └── invoice_enrichment.csv
-│       ├── snapshots
-│       └── tests
+│   ├── data_platform__customer
+│   │   ├── README.md
+│   │   ├── analyses
+│   │   │   ├── messy_eda.sql
+│   │   │   └── organizations_with_large_balance_changes.sql
+│   │   ├── dbt_project.yml
+│   │   ├── docs
+│   │   │   └── docs.md
+│   │   ├── macros
+│   │   │   ├── filter_new_rows.sql
+│   │   │   └── get_custom_schema.sql
+│   │   ├── models
+│   │   │   ├── exposures.yml
+│   │   │   ├── intermediate
+│   │   │   │   ├── int_invoices_enriched.sql
+│   │   │   │   └── int_organizations_joined_invoices_enriched.sql
+│   │   │   ├── marts
+│   │   │   │   ├── dim_invoices.sql
+│   │   │   │   ├── dim_organizations.sql
+│   │   │   │   └── fct_organization_daily_financials.sql
+│   │   │   ├── schema.yml
+│   │   │   ├── staging
+│   │   │   │   ├── stg_customer__invoices.sql
+│   │   │   │   └── stg_customer__organizations.sql
+│   │   │   └── utilities
+│   │   ├── packages.yml
+│   │   ├── seeds
+│   │   │   ├── schema.yml
+│   │   │   └── utilities
+│   │   │       └── invoice_enrichment.csv
+│   │   ├── snapshots
+│   │   │   └── invoices_snapshot.sql
+│   │   └── tests
+│   │       └── generic
+│   │           └── values_present_in_other_model.sql
+│   ├── dbt_packages
+│   └── logs
+│       └── dbt.log
 ├── init.sh
 └── init.sql
 ```
