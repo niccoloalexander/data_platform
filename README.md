@@ -2,7 +2,7 @@
 
 A postgres database app modeling customer data with an alerting feature for an operations team. 
 
-This is a DBT project used to showcase Analytics Engineering aptitude. The hypothetical use case is to monitor organization finances and alert on large balance changes. In this proejct, we are onstrained in using raw dim data with updated (lacking historical) attributes only.
+This is a DBT project used to showcase Analytics Engineering aptitude. The hypothetical use case is to monitor organization finances and alert on large balance changes. In this project, we are constrained to using raw dim data with updated (lacking historical) attributes only.
 
 ## How to use:
 
